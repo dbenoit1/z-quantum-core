@@ -18,7 +18,7 @@ from zquantum.core.utils import save_timing
 
 
 def transform_interaction_operator(
-    transformation: str, input_operator: Union[str, SymbolicOperator]
+    transformation: str, input_operator: Union[str, SymbolicOperator], active_orbitals=0,active_fermions=0
 ):
     """Transform an interaction operator through the Bravyi-Kitaev, 2qbitrer-BK or
     Jordan-Wigner transformations. The results are serialized into a JSON under the
@@ -44,7 +44,10 @@ def transform_interaction_operator(
         raise RuntimeError("Unrecognized transformation ", transformation)
 
     start_time = time.time()
-    transformed_operator = transformation_function(input_operator)
+    if transformation == "BK-2qbr":
+            transformed_operator = transformation_function(input_operator,active_orbitals,active_fermions)
+    else:
+        transformed_operator = transformation_function(input_operator)
     walltime = time.time() - start_time
 
     save_qubit_operator(transformed_operator, "transformed-operator.json")
