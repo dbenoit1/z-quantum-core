@@ -1,3 +1,4 @@
+#DMB changes 13/06/2022
 ################################################################################
 # © Copyright 2020-2022 Zapata Computing Inc.
 ################################################################################
@@ -9,6 +10,7 @@ from zquantum.core.openfermion import (
     bravyi_kitaev,
     get_fermion_operator,
     jordan_wigner,
+    symmetry_conserving_bravyi_kitaev,
     load_interaction_operator,
     save_qubit_operator,
 )
@@ -18,13 +20,13 @@ from zquantum.core.utils import save_timing
 def transform_interaction_operator(
     transformation: str, input_operator: Union[str, SymbolicOperator]
 ):
-    """Transform an interaction operator through either the Bravyi-Kitaev or
+    """Transform an interaction operator through the Bravyi-Kitaev, 2qbitrer-BK or
     Jordan-Wigner transformations. The results are serialized into a JSON under the
     files: "transformed-operator.json" and "timing.json"
 
     ARGS:
-        transformation: The transformation to use. Either "Jordan-Wigner" or
-            "Bravyi-Kitaev"
+        transformation: The transformation to use.  "Jordan-Wigner" or
+            "Bravyi-Kitaev" or "BK-2qbr"
         input_operator: The interaction operator to transform
     """
     if isinstance(input_operator, str):
@@ -35,6 +37,9 @@ def transform_interaction_operator(
     elif transformation == "Bravyi-Kitaev":
         input_operator = get_fermion_operator(input_operator)
         transformation_function = bravyi_kitaev
+    elif transformation == "BK-2qbr":
+        input_operator = get_fermion_operator(input_operator)
+        transformation_function = symmetry_conserving_bravyi_kitaev
     else:
         raise RuntimeError("Unrecognized transformation ", transformation)
 
