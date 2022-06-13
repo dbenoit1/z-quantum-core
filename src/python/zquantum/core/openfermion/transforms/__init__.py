@@ -18,6 +18,9 @@
 
 from .opconversions import (
     bravyi_kitaev,
+    symmetry_conserving_bravyi_kitaev,
+    bravyi_kitaev_tree,
+    FenwickTree,
     check_no_sympy,
     chemist_ordered,
     get_fermion_operator,
