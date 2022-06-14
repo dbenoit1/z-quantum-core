@@ -16,7 +16,7 @@ from zquantum.core.openfermion.ops.operators import QubitOperator
 from zquantum.core.openfermion.transforms.opconversions.bravyi_kitaev import (inline_product,
                                                                 inline_sum)
 from zquantum.core.openfermion.transforms.opconversions.fenwick_tree import FenwickTree
-
+from zquantum.core.openfermion.utils.operator_utils import count_qubits
 
 def bravyi_kitaev_tree(operator, n_qubits=None):
     """Apply the "tree" Bravyi-Kitaev transform.
@@ -44,7 +44,6 @@ def bravyi_kitaev_tree(operator, n_qubits=None):
         ValueError: Invalid number of qubits specified.
     """
     # Compute the number of qubits.
-    from openfermion.utils import count_qubits
     if n_qubits is None:
         n_qubits = count_qubits(operator)
     if n_qubits < count_qubits(operator):
