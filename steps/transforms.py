@@ -15,6 +15,8 @@ from zquantum.core.openfermion import (
     save_qubit_operator,
 )
 from zquantum.core.utils import save_timing
+from qeqiskit.conversions import qiskitpauli_to_qubitop, qubitop_to_qiskitpauli
+
 
 
 def transform_interaction_operator(
@@ -55,9 +57,11 @@ def transform_interaction_operator(
     
    if transformation == "qiskit":
     #transform orquestra qubit operator (openfermion) to qiskit
+        qiskitop=qubitop_to_qiskitpauli(input_operator)
     #perform particle/hole tranformation
-    #transform qiskit back to OF representation
     
+    #transform qiskit back to OF representation
+        transformed_operator=qiskitpauli_to_qubitop(qiskitop)
 
     save_qubit_operator(transformed_operator, "transformed-operator.json")
     save_timing(walltime, "timing.json")
