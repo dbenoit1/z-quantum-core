@@ -53,39 +53,19 @@ def transform_interaction_operator(
     if transformation == "BK-2qbr":
             transformed_operator = transformation_function(input_operator,active_orbitals,active_fermions)
     elif transformation == "qiskit":
-#    if transformation == "qiskit":
-#    #transform orquestra qubit operator (openfermion) to qiskit
-#        qiskitop=qubitop_to_qiskitpauli(transformed_operator)
-#        print("OK")
-#    #transform qiskit back to OF representation
-#        transformed_operator=qiskitpauli_to_qubitop(qiskitop)
-          
-#    if transformation == "qiskit":
-#    #transform orquestra qubit operator (openfermion) to qiskit
-#        # This shoudl work, but doesn't convert -> qiskitop=qubitop_to_qiskitpauli(input_operator)
-#        qiskitop=qubitop_to_qiskitpauli(transformed_operator)
-#    #perform particle/hole tranformation (assumes number active_fermions = 2*alpha =2*beta) 
-#    #QISKIT CODE \/
-#        newferOp, energy_shift = qiskitop.to_legacy_op().particle_hole_transformation([active_fermions//2, active_fermions//2])
-#        print('Energy shift is: {}'.format(energy_shift))
-#      #  newqubitOp_jw = newferOp.mapping(map_type='JORDAN_WIGNER', threshold=0.00000001)
-#      #  newqubitOp_jw.chop(10**-10)
-#    #QISKIT CODE /\
-#    #transform qiskit back to OF representation
-#        transformed_operator=qiskitpauli_to_qubitop(newferOp)
-#
-        #instead extract h1 and h2 from the interaction operator
-        h1=input_operator.one_body_tensor       
+        # extract h1 and h2 from the interaction operator to generate one in qiskit
+        h1=input_operator.one_body_tensor 
+        # there is a sign difference between OF and qiskit so changing sign.
         h2=-input_operator.two_body_tensor
+        #note that the order is diffrent between the interleaved format that qiskit expects and the block format that is provided
         print(h1)
         print("++++++++")
         print(h2)
-        #print("++++++++")
-        #print(np.einsum(‘ikmj->ijkm’, h2))
-        #DEBUG qiskitop=qubitop_to_qiskitpauli(jordan_wigner(get_fermion_operator(input_operator)))
-        #DEBUG print(qiskitop)
-        #then use qiskit to make the operator
+        #this will need fixing later
+        print(np.einsum('ikmj->ijkm', h2))
+
         #QISKIT CODE \/
+        #then use qiskit to make a fermionic operator operator
         ferOp = FermionicOperator(h1=h1, h2=h2)
         #perform particle/hole tranformation (assumes number active_fermions = 2*alpha =2*beta) 
         newferOp, energy_shift = ferOp.particle_hole_transformation([active_fermions//2, active_fermions//2])
@@ -93,8 +73,12 @@ def transform_interaction_operator(
         #map to JW in qiskit
         newqubitOp_jw = newferOp.mapping(map_type='JORDAN_WIGNER', threshold=0.00000001)
         newqubitOp_jw.chop(10**-10)
+        #operator is not in the correct format 
         print(newqubitOp_jw)
-        newqubitOp_jw_P=newqubitOp_jw.to_opflow().to_pauli_op()
+        #change this to a SummedOp (even though the qeqiskit conversion routine doesnt recognise it as such 
+        #(this is current fixed by removing the safety check in "qiskitpauli_to_qubitop" but fix in a cleaner way later 
+        newqubitOp_jw_P=newqubitOp_jw.to_opflow()
+        #checking that this is correct
         print(newqubitOp_jw_P)
         #QISKIT CODE /\
         #transform qiskit back to OF representation
