@@ -68,7 +68,7 @@ def transform_interaction_operator(
         qiskitop=qubitop_to_qiskitpauli(transformed_operator)
     #perform particle/hole tranformation (assumes number active_fermions = 2*alpha =2*beta) 
     #QISKIT CODE \/
-        newferOp, energy_shift = qiskitop.particle_hole_transformation([active_fermions//2, active_fermions//2])
+        newferOp, energy_shift = qiskitop.to_legacy_op().particle_hole_transformation([active_fermions//2, active_fermions//2])
         print('Energy shift is: {}'.format(energy_shift))
       #  newqubitOp_jw = newferOp.mapping(map_type='JORDAN_WIGNER', threshold=0.00000001)
       #  newqubitOp_jw.chop(10**-10)
