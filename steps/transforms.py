@@ -77,7 +77,7 @@ def transform_interaction_operator(
         h1=input_operator.one_body_tensor       
         h2=input_operator.two_body_tensor
         print(h1)
-        qiskitop=qubitop_to_qiskitpauli(get_fermion_operator(input_operator))
+        qiskitop=qubitop_to_qiskitpauli(jordan_wigner(get_fermion_operator(input_operator)))
         print(qiskitop)
         #then use qiskit to make the operator
         #QISKIT CODE \/
