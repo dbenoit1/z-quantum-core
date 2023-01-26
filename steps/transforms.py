@@ -4,6 +4,7 @@
 ################################################################################
 import time
 from typing import Union
+import numpy as np
 
 from zquantum.core.openfermion import (
     SymbolicOperator,
@@ -77,6 +78,10 @@ def transform_interaction_operator(
         h1=input_operator.one_body_tensor       
         h2=input_operator.two_body_tensor
         print(h1)
+        print("++++++++")
+        print(h2)
+        print("++++++++")
+        print(np.einsum(‘ikmj->ijkm’, h2)
         #DEBUG qiskitop=qubitop_to_qiskitpauli(jordan_wigner(get_fermion_operator(input_operator)))
         #DEBUG print(qiskitop)
         #then use qiskit to make the operator
