@@ -76,6 +76,7 @@ def transform_interaction_operator(
         #instead extract h1 and h2 from the interaction operator
         h1=input_operator.one_body_tensor
         h2=input_operator.two_body_tensor
+        print(h1)
         #then use qiskit to make the operator
         #QISKIT CODE \/
         ferOp = FermionicOperator(h1=h1, h2=h2)
@@ -85,7 +86,7 @@ def transform_interaction_operator(
         newqubitOp_jw.chop(10**-10)
         #QISKIT CODE /\
         #transform qiskit back to OF representation
-        transformed_operator=qiskitpauli_to_qubitop(newqubitOp_jw)
+        transformed_operator=qiskitpauli_to_qubitop(newqubitOp_jw.to_opflow())
     else:
         transformed_operator = transformation_function(input_operator)
 
