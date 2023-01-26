@@ -43,7 +43,7 @@ def transform_interaction_operator(
         input_operator = get_fermion_operator(input_operator)
         transformation_function = symmetry_conserving_bravyi_kitaev
     elif transformation == "qiskit":
-        input_operator = get_fermion_operator(input_operator)
+     #   input_operator = get_fermion_operator(input_operator)
         transformation_function = jordan_wigner
     else:
         raise RuntimeError("Unrecognized transformation ", transformation)
@@ -51,10 +51,7 @@ def transform_interaction_operator(
     start_time = time.time()
     if transformation == "BK-2qbr":
             transformed_operator = transformation_function(input_operator,active_orbitals,active_fermions)
-    else:
-        transformed_operator = transformation_function(input_operator)
-    walltime = time.time() - start_time
-    
+    elif transformation == "qiskit":
 #    if transformation == "qiskit":
 #    #transform orquestra qubit operator (openfermion) to qiskit
 #        qiskitop=qubitop_to_qiskitpauli(transformed_operator)
@@ -75,8 +72,7 @@ def transform_interaction_operator(
 #    #QISKIT CODE /\
 #    #transform qiskit back to OF representation
 #        transformed_operator=qiskitpauli_to_qubitop(newferOp)
-        
-    if transformation == "qiskit":
+#
         #instead extract h1 and h2 from the interaction operator
         h1=input_operator.one_body_tensor()
         h2=input_operator.two_body_tensor()
@@ -88,7 +84,10 @@ def transform_interaction_operator(
         #QISKIT CODE /\
         #transform qiskit back to OF representation
         transformed_operator=qiskitpauli_to_qubitop(newferOp)
+    else:
+        transformed_operator = transformation_function(input_operator)
 
+    walltime = time.time() - start_time
 
     save_qubit_operator(transformed_operator, "transformed-operator.json")
     save_timing(walltime, "timing.json")
