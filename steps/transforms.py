@@ -57,7 +57,7 @@ def transform_interaction_operator(
     
    if transformation == "qiskit":
     #transform orquestra qubit operator (openfermion) to qiskit
-        qiskitop=qubitop_to_qiskitpauli(input_operator)
+        qiskitop=qubitop_to_qiskitpauli(transformed_operator)
     #perform particle/hole tranformation
     #transform qiskit back to OF representation
         transformed_operator=qiskitpauli_to_qubitop(qiskitop)
