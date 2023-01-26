@@ -29,7 +29,7 @@ def rearrange(array,occ):
         base+=1
     print(idx)
     new_array=array[idx]
-    print("klklkl"
+    print("klklkl")
     print(new_array)
     return(new_array)
 
