@@ -81,9 +81,11 @@ def transform_interaction_operator(
         ferOp = FermionicOperator(h1=h1, h2=h2)
         newferOp, energy_shift = ferOp.particle_hole_transformation([active_fermions//2, active_fermions//2])
         print('Energy shift is: {}'.format(energy_shift))
+        newqubitOp_jw = newferOp.mapping(map_type='JORDAN_WIGNER', threshold=0.00000001)
+        newqubitOp_jw.chop(10**-10)
         #QISKIT CODE /\
         #transform qiskit back to OF representation
-        transformed_operator=qiskitpauli_to_qubitop(newferOp)
+        transformed_operator=qiskitpauli_to_qubitop(newqubitOp_jw)
     else:
         transformed_operator = transformation_function(input_operator)
 
