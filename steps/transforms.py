@@ -16,7 +16,7 @@ from zquantum.core.openfermion import (
 )
 from zquantum.core.utils import save_timing
 from qeqiskit.conversions import qiskitpauli_to_qubitop, qubitop_to_qiskitpauli
-
+from qiskit.chemistry import FermionicOperator
 
 
 def transform_interaction_operator(
