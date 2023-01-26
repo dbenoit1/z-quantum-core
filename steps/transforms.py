@@ -80,8 +80,8 @@ def transform_interaction_operator(
         print(h1)
         print("++++++++")
         print(h2)
-        print("++++++++")
-        print(np.einsum(‘ikmj->ijkm’, h2))
+        #print("++++++++")
+        #print(np.einsum(‘ikmj->ijkm’, h2))
         #DEBUG qiskitop=qubitop_to_qiskitpauli(jordan_wigner(get_fermion_operator(input_operator)))
         #DEBUG print(qiskitop)
         #then use qiskit to make the operator
