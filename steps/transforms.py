@@ -65,12 +65,15 @@ def transform_interaction_operator(
     if transformation == "qiskit":
     #transform orquestra qubit operator (openfermion) to qiskit
         qiskitop=qubitop_to_qiskitpauli(input_operator)
-    #perform particle/hole tranformation (assumes number active_fermions = 2*alpha =2*beta)
+    #perform particle/hole tranformation (assumes number active_fermions = 2*alpha =2*beta) 
+    #QISKIT CODE \/
         newferOp, energy_shift = qiskitop.particle_hole_transformation([active_fermions//2, active_fermions//2])
-        print(energy_shift)
+        print('Energy shift is: {}'.format(energy_shift))
+        newqubitOp_jw = newferOp.mapping(map_type='JORDAN_WIGNER', threshold=0.00000001)
+        newqubitOp_jw.chop(10**-10)
+    #QISKIT CODE /\
     #transform qiskit back to OF representation
-        OFnewferOp=qiskitpauli_to_qubitop(newferOp)
-        transformed_operator = transformation_function(OFnewferOp)
+        OFnewferOp=qiskitpauli_to_qubitop(newqubitOp_jw)
 
     save_qubit_operator(transformed_operator, "transformed-operator.json")
     save_timing(walltime, "timing.json")
