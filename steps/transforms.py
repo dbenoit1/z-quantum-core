@@ -19,6 +19,19 @@ from zquantum.core.utils import save_timing
 from qeqiskit.conversions import qiskitpauli_to_qubitop, qubitop_to_qiskitpauli
 from qiskit.chemistry import FermionicOperator
 
+def rearrange(array,occ):
+    #rearrange a block array of the type AAAABBBB to ABABABAB, assuming that we have occ A elements
+    idx=[]
+    base=0
+    for i in range(len(array)//2):
+        idx.append(base)
+        idx.append(base+occ)
+        base+=1
+    print(idx)
+    new_array=array[idx]
+    print("klklkl"
+    print(new_array)
+    return(new_array)
 
 def transform_interaction_operator(
     transformation: str, input_operator: Union[str, SymbolicOperator], active_orbitals=0,active_fermions=0
@@ -59,6 +72,7 @@ def transform_interaction_operator(
         h2=-input_operator.two_body_tensor
         #note that the order is diffrent between the interleaved format that qiskit expects and the block format that is provided
         print(h1)
+        rearrange(h1,active_fermions)
         print("++++++++")
         print(h2)
         #this will need fixing later
