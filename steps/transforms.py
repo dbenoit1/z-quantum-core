@@ -55,7 +55,7 @@ def transform_interaction_operator(
         transformed_operator = transformation_function(input_operator)
     walltime = time.time() - start_time
     
-   if transformation == "qiskit":
+    if transformation == "qiskit":
     #transform orquestra qubit operator (openfermion) to qiskit
         qiskitop=qubitop_to_qiskitpauli(transformed_operator)
     #perform particle/hole tranformation
