@@ -62,7 +62,6 @@ def transform_interaction_operator(
         print("++++++++")
         print(h2)
         #this will need fixing later
-        print(np.einsum('ikmj->ijkm', h2))
 
         #QISKIT CODE \/
         #then use qiskit to make a fermionic operator operator
