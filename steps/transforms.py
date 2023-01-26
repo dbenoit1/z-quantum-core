@@ -77,18 +77,20 @@ def transform_interaction_operator(
         h1=input_operator.one_body_tensor       
         h2=input_operator.two_body_tensor
         print(h1)
-        qiskitop=qubitop_to_qiskitpauli(jordan_wigner(get_fermion_operator(input_operator)))
-        print(qiskitop)
+        #DEBUG qiskitop=qubitop_to_qiskitpauli(jordan_wigner(get_fermion_operator(input_operator)))
+        #DEBUG print(qiskitop)
         #then use qiskit to make the operator
         #QISKIT CODE \/
         ferOp = FermionicOperator(h1=h1, h2=h2)
+        #perform particle/hole tranformation (assumes number active_fermions = 2*alpha =2*beta) 
         newferOp, energy_shift = ferOp.particle_hole_transformation([active_fermions//2, active_fermions//2])
         print('Energy shift is: {}'.format(energy_shift))
+        #map to JW in qiskit
         newqubitOp_jw = newferOp.mapping(map_type='JORDAN_WIGNER', threshold=0.00000001)
         newqubitOp_jw.chop(10**-10)
         #QISKIT CODE /\
         #transform qiskit back to OF representation
-        transformed_operator=qiskitpauli_to_qubitop(newqubitOp_jw)
+        transformed_operator=qiskitpauli_to_qubitop(newqubitOp_jw.to_opflow().to_pauli_op())
     else:
         transformed_operator = transformation_function(input_operator)
 
