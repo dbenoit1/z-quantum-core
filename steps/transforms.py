@@ -76,7 +76,7 @@ def transform_interaction_operator(
 #
         #instead extract h1 and h2 from the interaction operator
         h1=input_operator.one_body_tensor       
-        h2=input_operator.two_body_tensor
+        h2=-input_operator.two_body_tensor
         print(h1)
         print("++++++++")
         print(h2)
@@ -93,9 +93,12 @@ def transform_interaction_operator(
         #map to JW in qiskit
         newqubitOp_jw = newferOp.mapping(map_type='JORDAN_WIGNER', threshold=0.00000001)
         newqubitOp_jw.chop(10**-10)
+        print(newqubitOp_jw)
+        newqubitOp_jw_P=newqubitOp_jw.to_opflow().to_pauli_op()
+        print(newqubitOp_jw_P)
         #QISKIT CODE /\
         #transform qiskit back to OF representation
-        transformed_operator=qiskitpauli_to_qubitop(newqubitOp_jw.to_opflow().to_pauli_op())
+        transformed_operator=qiskitpauli_to_qubitop(newqubitOp_jw_P)
     else:
         transformed_operator = transformation_function(input_operator)
 
