@@ -29,7 +29,7 @@ def rearrange_both(array,array2,occ):
         base+=1
     print(idx)
     new_array=array[:, idx][idx]
-    new_array2=array2[:, :, idx][:, idx][idx]
+    new_array2=array2[:, :, :, idx][:, :, idx][:, idx][idx]
     print("klklkl")
     return(new_array,new_array2)
 
