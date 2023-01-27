@@ -78,6 +78,7 @@ def transform_interaction_operator(
         #print(".......")
         #print(newh2)
 
+        print(input_operator.constant)
         #QISKIT CODE \/
         #then use qiskit to make a fermionic operator operator
         ferOp = FermionicOperator(h1=newh1, h2=newh2)
