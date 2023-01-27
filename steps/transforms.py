@@ -93,10 +93,14 @@ def transform_interaction_operator(
         #(this is current fixed by removing the safety check in "qiskitpauli_to_qubitop" but fix in a cleaner way later 
         newqubitOp_jw_P=newqubitOp_jw.to_opflow()
         #checking that this is correct
+        print("Qiskit version:")
         print(newqubitOp_jw_P)
         #QISKIT CODE /\
         #transform qiskit back to OF representation
         transformed_operator=qiskitpauli_to_qubitop(newqubitOp_jw_P)
+        #checking the resulting operator
+        print("OF version:")
+        print(transformed_operator)
     else:
         transformed_operator = transformation_function(input_operator)
 
