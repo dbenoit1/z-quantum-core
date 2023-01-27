@@ -101,6 +101,10 @@ def transform_interaction_operator(
         #checking the resulting operator
         print("OF version:")
         print(transformed_operator)
+        #IMPORTANT NOTE: the OF tranformation removes the IIII operations so the resulting H needs shifing by the IIII coefficent
+        #coeff is stored in (first element of the operator, usually ordered in qiskit, with II..I being first):
+        print(newqubitOp_jw_P._oplist[0].coeff)
+        print("total correction =",newqubitOp_jw_P._oplist[0].coeff-energy_shift
     else:
         transformed_operator = transformation_function(input_operator)
 
