@@ -21,16 +21,17 @@ from qiskit.chemistry import FermionicOperator
 
 def rearrange_both(array,array2,occ):
     #rearrange a block array of the type AAAABBBB to ABABABAB, assuming that we have occ A elements
+    #Performs both one-body and two-body intergral matrices rearrengments - checked on H2/STO-3G 
+    #with original qiskit code
     idx=[]
     base=0
     for i in range(len(array)//2):
         idx.append(base)
         idx.append(base+occ)
         base+=1
-    print(idx)
+    print("new state ordering index array",idx)
     new_array=array[:, idx][idx]
     new_array2=array2[:, :, :, idx][:, :, idx][:, idx][idx]
-    print("klklkl")
     return(new_array,new_array2)
 
 def transform_interaction_operator(
@@ -71,15 +72,11 @@ def transform_interaction_operator(
         # there is a sign difference between OF and qiskit so changing sign.
         h2=-input_operator.two_body_tensor
         #note that the order is diffrent between the interleaved format that qiskit expects and the block format that is provided
-        print(h1)
-        print("++++++++")
-        print(h2)
-        #this will need fixing later
+        #re-organising the data to fit an interleaved scheme rather than a block scheme
         (newh1,newh2)=rearrange_both(h1,h2,active_fermions)
-        print("correct?")
-        print(newh1)
-        print(".......")
-        print(newh2)
+        #print(newh1)
+        #print(".......")
+        #print(newh2)
 
         #QISKIT CODE \/
         #then use qiskit to make a fermionic operator operator
