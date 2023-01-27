@@ -19,7 +19,7 @@ from zquantum.core.utils import save_timing
 from qeqiskit.conversions import qiskitpauli_to_qubitop, qubitop_to_qiskitpauli
 from qiskit.chemistry import FermionicOperator
 
-def rearrange(array,occ):
+def rearrange_both(array,array2,occ):
     #rearrange a block array of the type AAAABBBB to ABABABAB, assuming that we have occ A elements
     idx=[]
     base=0
@@ -28,10 +28,10 @@ def rearrange(array,occ):
         idx.append(base+occ)
         base+=1
     print(idx)
-    new_array=array[idx]
+    new_array=array[:, idx][idx]
+    new_array2=array2[:, :, idx][:, idx][idx]
     print("klklkl")
-    print(new_array)
-    return(new_array)
+    return(new_array,new_array2)
 
 def transform_interaction_operator(
     transformation: str, input_operator: Union[str, SymbolicOperator], active_orbitals=0,active_fermions=0
@@ -72,14 +72,18 @@ def transform_interaction_operator(
         h2=-input_operator.two_body_tensor
         #note that the order is diffrent between the interleaved format that qiskit expects and the block format that is provided
         print(h1)
-        rearrange(h1,active_fermions)
         print("++++++++")
         print(h2)
         #this will need fixing later
+        (newh1,newh2)=rearrange_both(h1,h2,active_fermions)
+        print("correct?")
+        print(newh1)
+        print(".......")
+        print(newh2)
 
         #QISKIT CODE \/
         #then use qiskit to make a fermionic operator operator
-        ferOp = FermionicOperator(h1=h1, h2=h2)
+        ferOp = FermionicOperator(h1=newh1, h2=newh2)
         #perform particle/hole tranformation (assumes number active_fermions = 2*alpha =2*beta) 
         newferOp, energy_shift = ferOp.particle_hole_transformation([active_fermions//2, active_fermions//2])
         print('Energy shift is: {}'.format(energy_shift))
