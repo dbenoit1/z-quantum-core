@@ -5,6 +5,7 @@
 import time
 from typing import Union
 import numpy as np
+import json
 
 from zquantum.core.openfermion import (
     SymbolicOperator,
