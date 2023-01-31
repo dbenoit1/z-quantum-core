@@ -14,6 +14,7 @@ from zquantum.core.openfermion import (
     symmetry_conserving_bravyi_kitaev,
     load_interaction_operator,
     save_qubit_operator,
+    QubitOperator,
 )
 from zquantum.core.utils import save_timing
 from qeqiskit.conversions import qiskitpauli_to_qubitop, qubitop_to_qiskitpauli
@@ -105,7 +106,9 @@ def transform_interaction_operator(
         #IMPORTANT NOTE: the OF tranformation removes the IIII operations so the resulting H needs shifing by the IIII coefficent
         #coeff is stored in (first element of the operator, usually ordered in qiskit, with II..I being first):
         print(newqubitOp_jw_P._oplist[0].coeff)
+        constant_coefficient=newqubitOp_jw_P._oplist[0].coeff-energy_shift
         print("total correction = ",newqubitOp_jw_P._oplist[0].coeff-energy_shift)
+        transformed_operator+= constant_coefficient * QubitOperator(())
     else:
         transformed_operator = transformation_function(input_operator)
 
