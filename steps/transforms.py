@@ -107,13 +107,20 @@ def transform_interaction_operator(
         #IMPORTANT NOTE: the OF tranformation removes the IIII operations so the resulting H needs shifing by the IIII coefficent
         #coeff is stored in (first element of the operator, usually ordered in qiskit, with II..I being first):
         print(newqubitOp_jw_P._oplist[0].coeff)
-        constant_coefficient=newqubitOp_jw_P._oplist[0].coeff-energy_shift
+        #Check if a HF ground state energy is provided and if so use it to "zero" the hamiltonian -> correlation hamiltonian
+        hf_ground_state_energy=0
         #try to read the HF energy from psi4 calculation
         if (hfresults != ""):
+            #If the file is there, then read in the HF energy
             with open(hfresults, "r") as f:
                 psi4results = json.load(f)
-            print("HF energy:",psi4results["energy"])
-        print("total correction = ",newqubitOp_jw_P._oplist[0].coeff-energy_shift)
+            hf_ground_state_energy=float(psi4results["energy"])
+            print("HF energy:",hf_ground_state_energy)
+        #remove HF energy from constant shift (if this was not read in, then simply remove 0)  
+        constant_coefficient=newqubitOp_jw_P._oplist[0].coeff-energy_shift-hf_ground_state_energy
+        #Print the correction value
+        print("total correction = ",constant_coefficient)
+        #Add constant term to the operator
         transformed_operator+= constant_coefficient * QubitOperator(())
     else:
         transformed_operator = transformation_function(input_operator)
