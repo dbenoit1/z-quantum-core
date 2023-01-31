@@ -110,7 +110,7 @@ def transform_interaction_operator(
         print("total correction = ",newqubitOp_jw_P._oplist[0].coeff-energy_shift)
         transformed_operator+= constant_coefficient * QubitOperator(())
          #try to read the HF energy from psi4 calculation
-        print(hfresults["energy"])
+        print(hfresults)
     else:
         transformed_operator = transformation_function(input_operator)
 
