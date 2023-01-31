@@ -109,7 +109,7 @@ def transform_interaction_operator(
         print(newqubitOp_jw_P._oplist[0].coeff)
         constant_coefficient=newqubitOp_jw_P._oplist[0].coeff-energy_shift
         #try to read the HF energy from psi4 calculation
-        if hfresults != ""):
+        if (hfresults != ""):
             with open(hfresults, "r") as f:
                 psi4results = json.load(f)
             print("HF energy:",psi4results["energy"])
