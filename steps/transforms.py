@@ -37,7 +37,7 @@ def rearrange_both(array,array2,occ):
     return(new_array,new_array2)
 
 def transform_interaction_operator(
-    transformation: str, input_operator: Union[str, SymbolicOperator], active_orbitals=0,active_fermions=0,hfresults=[]
+    transformation: str, input_operator: Union[str, SymbolicOperator], active_orbitals=0,active_fermions=0,hfresults=""
 ):
     """Transform an interaction operator through the Bravyi-Kitaev, 2qbitrer-BK or
     Jordan-Wigner transformations. The results are serialized into a JSON under the
@@ -108,14 +108,13 @@ def transform_interaction_operator(
         #coeff is stored in (first element of the operator, usually ordered in qiskit, with II..I being first):
         print(newqubitOp_jw_P._oplist[0].coeff)
         constant_coefficient=newqubitOp_jw_P._oplist[0].coeff-energy_shift
+        #try to read the HF energy from psi4 calculation
+        if hfresults != ""):
+            with open(hfresults, "r") as f:
+                psi4results = json.load(f)
+            print("HF energy:",psi4results["energy"])
         print("total correction = ",newqubitOp_jw_P._oplist[0].coeff-energy_shift)
         transformed_operator+= constant_coefficient * QubitOperator(())
-         #try to read the HF energy from psi4 calculation
-        print(hfresults)
-          #try to read the HF energy from psi4 calculation
-        with open(hfresults, "r") as f:
-            psi4results = json.load(f)
-        print(psi4results["energy"])
     else:
         transformed_operator = transformation_function(input_operator)
 
