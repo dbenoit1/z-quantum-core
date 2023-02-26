@@ -20,6 +20,7 @@ from zquantum.core.openfermion import (
 from zquantum.core.utils import save_timing
 from qeqiskit.conversions import qiskitpauli_to_qubitop, qubitop_to_qiskitpauli
 from qiskit.chemistry import FermionicOperator
+from zquantum.core.openfermion.ops.representations import InteractionOperator
 
 def rearrange_both(array,array2,occ):
     #rearrange a block array of the type AAAABBBB to ABABABAB, assuming that we have occ A elements
@@ -62,6 +63,29 @@ def transform_interaction_operator(
     elif transformation == "qiskit":
      #   input_operator = get_fermion_operator(input_operator)
         transformation_function = jordan_wigner
+    elif transformation == "qiskitBK":
+        print("COMPUTING PH Hamiltonian")
+        # extract h1 and h2 from the interaction operator to generate one in qiskit
+        h1=input_operator.one_body_tensor 
+        # there is a sign difference between OF and qiskit so changing sign.
+        h2=-input_operator.two_body_tensor
+        #note that the order is diffrent between the interleaved format that qiskit expects and the block format that is provided
+        #re-organising the data to fit an interleaved scheme rather than a block scheme
+        (newh1,newh2)=rearrange_both(h1,h2,active_fermions)
+        print(input_operator.constant)
+        #QISKIT CODE \/
+        #then use qiskit to make a fermionic operator operator
+        ferOp = FermionicOperator(h1=newh1, h2=newh2)
+        #perform particle/hole tranformation (assumes number active_fermions = 2*alpha =2*beta) 
+        newferOp, energy_shift = ferOp.particle_hole_transformation([active_fermions//2, active_fermions//2])
+        print('Energy shift is: {}'.format(energy_shift))
+        #extract H1 and H2 from PH hamiltonian
+        (phh1,phh2)=rearrange_both(newferOp.h1,newferOp.h2,active_fermions)
+        #Flip sign for H2
+        phh2*=-1
+        input_operator = InteractionOperator(energy_shift, phh1, phh2)
+        input_operator = get_fermion_operator(input_operator)
+        transformed_operator = symmetry_conserving_bravyi_kitaev(input_operator,active_orbitals,active_fermions)
     else:
         raise RuntimeError("Unrecognized transformation ", transformation)
 
