@@ -84,8 +84,11 @@ def transform_interaction_operator(
         #Flip sign for H2
         phh2*=-1
         input_operator = InteractionOperator(energy_shift, phh1, phh2)
+        print(input_operator)
         input_operator = get_fermion_operator(input_operator)
+        print(input_operator)
         transformed_operator = symmetry_conserving_bravyi_kitaev(input_operator,active_orbitals,active_fermions)
+        print(transformed_operator)
     else:
         raise RuntimeError("Unrecognized transformation ", transformation)
 
