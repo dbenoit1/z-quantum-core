@@ -87,6 +87,8 @@ def transform_interaction_operator(
         print(input_operator)
         input_operator = get_fermion_operator(input_operator)
         print(input_operator)
+        #setting transformation to BK-2qbr
+        transformation_function = symmetry_conserving_bravyi_kitaev
     else:
         raise RuntimeError("Unrecognized transformation ", transformation)
 
