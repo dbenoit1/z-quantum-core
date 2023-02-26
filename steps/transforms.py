@@ -87,13 +87,11 @@ def transform_interaction_operator(
         print(input_operator)
         input_operator = get_fermion_operator(input_operator)
         print(input_operator)
-        transformed_operator = symmetry_conserving_bravyi_kitaev(input_operator,active_orbitals,active_fermions)
-        print(transformed_operator)
     else:
         raise RuntimeError("Unrecognized transformation ", transformation)
 
     start_time = time.time()
-    if transformation == "BK-2qbr":
+    if transformation == "BK-2qbr" or "qiskitBK":
             transformed_operator = transformation_function(input_operator,active_orbitals,active_fermions)
     elif transformation == "qiskit":
         # extract h1 and h2 from the interaction operator to generate one in qiskit
