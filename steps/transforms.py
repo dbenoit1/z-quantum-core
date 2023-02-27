@@ -72,13 +72,13 @@ def transform_interaction_operator(
         #note that the order is diffrent between the interleaved format that qiskit expects and the block format that is provided
         #re-organising the data to fit an interleaved scheme rather than a block scheme
         (newh1,newh2)=rearrange_both(h1,h2,active_fermions)
-        print(input_operator.constant)
         #QISKIT CODE \/
         #then use qiskit to make a fermionic operator operator
         ferOp = FermionicOperator(h1=newh1, h2=newh2)
         #perform particle/hole tranformation (assumes number active_fermions = 2*alpha =2*beta) 
         newferOp, energy_shift = ferOp.particle_hole_transformation([active_fermions//2, active_fermions//2])
         print('Energy shift is: {}'.format(energy_shift))
+        #QISKIT CODE /\
         #extract H1 and H2 from PH hamiltonian
         (phh1,phh2)=rearrange_both(newferOp.h1,newferOp.h2,active_fermions)
         #Flip sign for H2
@@ -88,12 +88,14 @@ def transform_interaction_operator(
         input_operator = get_fermion_operator(input_operator)
         print(input_operator)
         #setting transformation to BK-2qbr
-        transformation_function = symmetry_conserving_bravyi_kitaev
+        #transformation_function = symmetry_conserving_bravyi_kitaev
+        transformation_function = jordan_wigner #test
     else:
         raise RuntimeError("Unrecognized transformation ", transformation)
 
     start_time = time.time()
-    if transformation == "BK-2qbr" or "qiskitBK":
+    #if transformation == "BK-2qbr" or "qiskitBK":
+    if transformation == "BK-2qbr":
             transformed_operator = transformation_function(input_operator,active_orbitals,active_fermions)
     elif transformation == "qiskit":
         # extract h1 and h2 from the interaction operator to generate one in qiskit
@@ -152,7 +154,9 @@ def transform_interaction_operator(
         transformed_operator+= constant_coefficient * QubitOperator(())
     else:
         transformed_operator = transformation_function(input_operator)
-
+        print("FINAL T-OP")
+        print(transformed_operator)
+        
     walltime = time.time() - start_time
 
     save_qubit_operator(transformed_operator, "transformed-operator.json")
