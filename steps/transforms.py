@@ -84,7 +84,8 @@ def transform_interaction_operator(
         #Flip sign for H2
         phh2*=-1
        # input_operator = InteractionOperator(energy_shift, phh1, phh2)
-        input_operator = InteractionOperator(0.0, phh1, phh2)
+        input_operator = InteractionOperator(-energy_shift, phh1, phh2)
+        #input_operator = InteractionOperator(0.0, phh1, phh2)
         print(input_operator)
         input_operator = get_fermion_operator(input_operator)
         print(input_operator)
