@@ -83,7 +83,8 @@ def transform_interaction_operator(
         (phh1,phh2)=rearrange_both(newferOp.h1,newferOp.h2,active_fermions)
         #Flip sign for H2
         #phh2*=-1
-        input_operator = InteractionOperator(energy_shift, phh1, phh2)
+        #input_operator = InteractionOperator(energy_shift, phh1, phh2)
+        input_operator = InteractionOperator(energy_shift, newferOp.h1, newferOp.h2)
         #input_operator = InteractionOperator(0.0, phh1, phh2)
         print(input_operator)
         input_operator = get_fermion_operator(input_operator)
