@@ -28,9 +28,10 @@ def rearrange_both(array,array2,occ):
     #with original qiskit code
     idx=[]
     base=0
-    for i in range(len(array)//2):
+    midpoint=len(array)//2
+    for i in range(midpoint):
         idx.append(base)
-        idx.append(base+occ)
+        idx.append(base+midpoint)
         base+=1
     print("new state ordering index array",idx)
     new_array=array[:, idx][idx]
