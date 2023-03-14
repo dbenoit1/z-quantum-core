@@ -107,9 +107,9 @@ def transform_interaction_operator(
         #note that the order is diffrent between the interleaved format that qiskit expects and the block format that is provided
         #re-organising the data to fit an interleaved scheme rather than a block scheme
         (newh1,newh2)=rearrange_both(h1,h2,active_fermions)
-        #print(newh1)
-        #print(".......")
-        #print(newh2)
+        print(newh1)
+        print(".......")
+        print(newh2)
 
         print(input_operator.constant)
         #QISKIT CODE \/
