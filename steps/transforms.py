@@ -102,8 +102,11 @@ def transform_interaction_operator(
     elif transformation == "qiskit":
         # extract h1 and h2 from the interaction operator to generate one in qiskit
         h1=input_operator.one_body_tensor 
+        print(h1)
         # there is a sign difference between OF and qiskit so changing sign.
         h2=-input_operator.two_body_tensor
+        print(h2)
+        print("<><><><><><><><")
         #note that the order is diffrent between the interleaved format that qiskit expects and the block format that is provided
         #re-organising the data to fit an interleaved scheme rather than a block scheme
         (newh1,newh2)=rearrange_both(h1,h2,active_fermions)
