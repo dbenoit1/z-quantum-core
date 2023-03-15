@@ -23,16 +23,22 @@ from qiskit.chemistry import FermionicOperator
 from zquantum.core.openfermion.ops.representations import InteractionOperator
 
 def rearrange_both(array,array2,occ):
-    #rearrange a block array of the type AAAABBBB to ABABABAB, assuming that we have occ A elements
+    # WAS:rearrange a block array of the type AAAABBBB to ABABABAB, assuming that we have occ A elements
+    # NOW: Up then down reordering, given the operator has the default even-odd ordering. 
+    # Otherwise this function will reorder indices where all even
+    # indices now come before odd indices.
+    # Example: 0,1,2,3,4,5 -> 0,2,4,1,3,5
     #Performs both one-body and two-body intergral matrices rearrengments - checked on H2/STO-3G 
     #with original qiskit code
     idx=[]
-    base=0
-    midpoint=len(array)//2
-    for i in range(midpoint):
-        idx.append(base)
-        idx.append(base+midpoint)
-        base+=1
+    num_qubits=len(array)  
+    halfway = int(numpy.ceil(num_qubits / 2.))
+
+    for i in range(num_qubits):
+        if i % 2 == 0:
+            idx.append(i // 2)
+        else:
+            idx.append(i // 2 + halfway)
     print("new state ordering index array",idx)
     new_array=array[:, idx][idx]
     new_array2=array2[:, :, :, idx][:, :, idx][:, idx][idx]
