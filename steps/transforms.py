@@ -32,13 +32,14 @@ def rearrange_both(array,array2,occ):
     #with original qiskit code
     idx=[]
     num_qubits=len(array)  
-    halfway = int(np.ceil(num_qubits / 2.))
-
+    #even numbers first
+    for i in range(0,num_qubits,2):
+        idx.append(i)
+    #odd next
     for i in range(num_qubits):
-        if i % 2 == 0:
-            idx.append(i // 2)
-        else:
-            idx.append(i // 2 + halfway)
+        if i % 2 != 0:
+            idx.append(i)
+            
     print("new state ordering index array",idx)
     new_array=array[:, idx][idx]
     new_array2=array2[:, :, :, idx][:, :, idx][:, idx][idx]
