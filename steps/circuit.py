@@ -39,7 +39,7 @@ def generate_random_ansatz_params(
     serialization.save_array(params, "params.json")
 
 # Generate parameters for an HF start of HEA ansatz
-def generate_ansatz_with HF_params(
+def generate_ansatz_with_HF_params(
     ansatz_specs: Optional[Specs] = None,
     number_of_parameters: Optional[int] = None,
     seed: Optional[int] = None,
