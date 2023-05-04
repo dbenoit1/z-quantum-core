@@ -51,6 +51,7 @@ def generate_ansatz_with_HF_params(
         number_of_parameters = ansatz.number_of_params
         qubits_occupation = ansatz.list_occupied_qubit
         nb_qubits = ansatz.number_of_params_per_layer
+        print("INIT",qubits_occupation)
 
     params = np.zeros(number_of_parameters)
     
