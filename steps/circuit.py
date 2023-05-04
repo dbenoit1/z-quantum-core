@@ -61,6 +61,16 @@ def generate_ansatz_with_HF_params(
     
     serialization.save_array(params, "params.json")
 
+# Generate parameters from a list
+def generate_ansatz_from_list(
+    list_of_parameters: List[float] = None,
+
+):
+    params = np.array(list_of_parameters)
+    
+    print(params)
+    
+    serialization.save_array(params, "params.json")
 
 # Combine two sets of ansatz parameters
 def combine_ansatz_params(params1: str, params2: str):
