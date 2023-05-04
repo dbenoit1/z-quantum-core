@@ -39,7 +39,7 @@ def generate_random_ansatz_params(
     serialization.save_array(params, "params.json")
 
 # Generate parameters for an HF start of HEA ansatz
-def generate_HF_ansatz_params(
+def generate_ansatz_with HF_params(
     ansatz_specs: Optional[Specs] = None,
     number_of_parameters: Optional[int] = None,
     seed: Optional[int] = None,
@@ -49,8 +49,15 @@ def generate_HF_ansatz_params(
     if ansatz_specs is not None:
         ansatz = load_from_specs(ansatz_specs)
         number_of_parameters = ansatz.number_of_params
+        qubits_occupation = ansatz.list_of_occupied_qubits
+        nb_qubits = ansatz.number_of_params_per_layer
 
     params = np.zeroes(number_of_parameters)
+    
+    for i in range(nb_qubits):
+        if(qubits_occupation==1):
+            params[i]=np.pi
+    
     serialization.save_array(params, "params.json")
 
 
