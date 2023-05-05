@@ -49,15 +49,15 @@ def generate_ansatz_with_HF_params(
     if ansatz_specs is not None:
         ansatz = load_from_specs(ansatz_specs)
         number_of_parameters = ansatz.number_of_params
-        qubits_occupation = ansatz.list_occupied_qubit
+        #qubits_occupation = ansatz.list_occupied_qubit
         nb_qubits = ansatz.number_of_params_per_layer
-        print("INIT",qubits_occupation)
+        #print("INIT",qubits_occupation)
 
     params = np.zeros(number_of_parameters)
     
-    for i in range(nb_qubits):
-        if(qubits_occupation==1):
-            params[i]=np.pi
+#    for i in range(nb_qubits):
+#        if(qubits_occupation==1):
+#            params[i]=np.pi
     
     serialization.save_array(params, "params.json")
 
