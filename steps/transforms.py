@@ -77,8 +77,8 @@ def transform_interaction_operator(
         h1=input_operator.one_body_tensor 
         # there is a sign difference between OF and qiskit so changing sign.
         h2=-input_operator.two_body_tensor
-        #note that the order is diffrent between the interleaved format that qiskit expects and the block format that is provided
-        #re-organising the data to fit an interleaved scheme rather than a block scheme
+        #note that the order is diffrent between the block format that qiskit expects and the interleaved format that is provided
+        #re-organising the data to fit an block scheme rather than a interleaved scheme
         (newh1,newh2)=rearrange_both(h1,h2,active_fermions)
         #QISKIT CODE \/
         #then use qiskit to make a fermionic operator operator
@@ -115,8 +115,8 @@ def transform_interaction_operator(
         h2=-input_operator.two_body_tensor
         print(h2)
         print("<><><><><><><><")
-        #note that the order is diffrent between the interleaved format that qiskit expects and the block format that is provided
-        #re-organising the data to fit an interleaved scheme rather than a block scheme
+        #note that the order is diffrent between the block format that qiskit expects and the interleaved format that is provided
+        #re-organising the data to fit an block scheme rather than a interleaved scheme
         (newh1,newh2)=rearrange_both(h1,h2,active_fermions)
         print(newh1)
         print(".......")
